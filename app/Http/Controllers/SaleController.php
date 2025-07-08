@@ -5,72 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
-// class SaleController extends Controller
-// {
-//     public function index()
-//     {
-//         $products = Product::all();
-//         $cart = session('cart', []);
-//         $total = 0;
-//         foreach ($cart as $item) {
-//             $total += $item['harga'] * $item['jumlah'];
-//         }
-
-//         return view('sales.index', compact('products', 'cart', 'total'));
-//     }
-
-//     public function addToCart(Request $request)
-// {
-//     $product = Product::findOrFail($request->kode);
-//     $jumlah = 1; // jumlah otomatis 1
-
-//     $cart = session()->get('cart', []);
-
-//     // Cek apakah produk sudah ada di keranjang
-//     $found = false;
-//     foreach ($cart as &$item) {
-//         if ($item['kode'] == $product->kode) {
-//             $item['jumlah'] += $jumlah;
-//             $found = true;
-//             break;
-//         }
-//     }
-//     if (!$found) {
-//         $cart[] = [
-//             'kode' => $product->kode,
-//             'nama' => $product->nama,
-//             'harga' => $product->harga,
-//             'jumlah' => $jumlah,
-//         ];
-//     }
-
-//     session(['cart' => $cart]);
-//     return redirect()->route('sales.index');
-// }
-
-
-//     public function checkout()
-//     {
-//         $cart = session('cart', []);
-//         $total = 0;
-
-//         foreach ($cart as $item) {
-//             $product = Product::find($item['kode']);
-//             if ($item['jumlah'] > $product->stock) {
-//                 return back()->with('error', 'Stok tidak cukup untuk ' . $product->nama);
-//             }
-
-//             $product->stock -= $item['jumlah'];
-//             $product->save();
-
-//             $total += $item['harga'] * $item['jumlah'];
-//         }
-
-//         session()->forget('cart');
-//         return back()->with('success', 'Transaksi berhasil. Total: Rp' . $total);
-//     }
-// }
-
 class SaleController extends Controller
 {
     public function index()
@@ -111,8 +45,8 @@ class SaleController extends Controller
     public function remove(Request $request)
     {
         $cart = session()->get('cart', []);
-        unset($cart[$request->index]); // hapus item tertentu
-        $cart = array_values($cart);   // reset index array-nya
+        unset($cart[$request->index]); 
+        $cart = array_values($cart);   
         session()->put('cart', $cart);
         return redirect()->route('sales.index');
     }
